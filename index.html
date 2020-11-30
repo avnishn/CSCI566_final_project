@@ -193,13 +193,11 @@
   <meta name="twitter:title" content="Demystifying Reproducibility In Meta-RL and Multi-task-RL">
   <meta name="twitter:description" content="Avnish Narayan. Demystifying Reproducibility In Meta-RL and Multi-task-RL. 2020.">
   <meta name="twitter:url" content="https://avnishn.github.io/">
-  <meta name="twitter:image" content="https://github.com/clvrai/spirl/docs/resources/spirl_teaser.png">   <!-- UPDATE -->
   <meta property="og:image:width" content="3902">
   <meta property="og:image:height" content="1337">
 
   <script src="./demystifying_reproducibility_in_meta_mtrl_files/iframe_api"></script>
   <meta name="twitter:card" content="player">
-  <meta name="twitter:image" content="https://github.com/clvrai/spirl/docs/resources/spirl_teaser.png">   <!-- UPDATE -->
   <meta name="twitter:player:width" content="640">
   <meta name="twitter:player:height" content="360">
 
@@ -226,241 +224,163 @@
       </tr></tbody></table>
 
       <div class="table-like" style="justify-content:space-evenly;max-width:500px;margin:auto;padding:5px">
-        <div><center><span style="font-size:28px"><a href="https://github.com/avnishn/CSCI566_final_project">[GitHub Code]</a></span></center> </div>   <!-- UPDATE -->
+        <div><center><span style="font-size:28px"><a href="https://github.com/rlworkgroup/garage">[GitHub Code]</a></span></center> </div>   <!-- UPDATE -->
       </div>
-
-      <!-- ### VIDEO ### -->
-      <!-- <center>
-      <iframe width="768" height="432" max-width="100%" src="https://www.youtube.com/embed/axXx-x86IeY?autoplay=1&loop=1&playlist=axXx-x86IeY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center> -->
-      <!-- <iframe width="768" height="432" max-width="100%" src="resources/video.m4v" frameborder="0" allowfullscreen></iframe></center> -->
-      <!-- <br> -->
-
-      <br>
-          <center><a href="./demystifying_reproducibility_in_meta_mtrl_files/spirl_teaser.png"><img src="./demystifying_reproducibility_in_meta_mtrl_files/spirl_teaser.png" width="1000px"></a><br></center>
-      <br>
 
       <div style="width:800px; margin:0 auto;padding:5px" align="justify">
-        Intelligent agents rely heavily on prior experience when learning a new task, yet most modern reinforcement learning (RL) approaches learn every task from scratch. One approach for leveraging prior knowledge is to transfer skills learned on prior tasks to the new task. However, as the amount of prior experience increases, the number of transferable skills grows too, making it challenging to explore the full set of available skills during downstream learning. Yet, intuitively, not all skills should be explored with equal probability; instead information e.g. about the current environment state can hint which skills are promising to explore. In this work, we propose to implement this intuition by learning a prior over skills. We propose a deep latent variable model that jointly learns an embedding space of skills and the skill prior from offline agent experience. We then extend common maximum-entropy RL approaches to incorporate skill priors to guide downstream learning. We validate our approach, SPiRL (Skill-Prior RL), on complex navigation and robotic manipulation tasks and show that learned skill priors are essential for effective transfer of skills from rich datasets.
+        Meta- and multi-task reinforcement learning (meta-RL and MTRL) show
+        great promise for achieving long-term research goals like continual
+        learning, and real-world applications like robotics, by making
+        adaptation a first-class capability of intelligent agents.
+        <p></p>Reproducibility in this field of research is a problem because:</p>
+        <ul>
+        <li><p>Evaluation of any methods requires strong quantitative analysis 
+            for realizing true algorithm/method potential and seed sensitivity.</p>
+        </li>
+        <li><p>No 2 open-sourced implementations of any algorithm are the same.</p>
+        </li>
+        </ul>
+
       </div>
       <br><hr>
-
 
       <!-- ################### OVERVIEW #################### -->
 
       <center><h1>Overview</h1></center><div style="width:800px; margin:0 auto;padding:5px" align="justify">
-        Our goal is to leverage large, unstructured datasets of agent experience for accelerating downstream reinforcement learning. Our approach, SPiRL (Skill-Prior RL), tackles this problem in two stages: first we learn a continuous representation of skills and a prior over these skills, then we leverage them for guiding reinforcement learning on a new downstream task.
-        </div><br><table align="center" width="950px">
-        
-        
-        <tbody><tr>
-        <td style="width:40%">
-          <!-- <p style="margin-top:4px;"></p> -->
-          <a href="./demystifying_reproducibility_in_meta_mtrl_files/skill_model.png"><img style="width:450px; float:left" src="./demystifying_reproducibility_in_meta_mtrl_files/skill_model.png"></a>
-        </td>
-        <td style="width:3%"></td>
-        <td style="width:57%">
-          <h2>Skill Prior Learning</h2>
-          <span style="float:right;margin:auto" align="justify">
-          We propose a model for jointly learning <b>(1) a continuous embedding space of skills</b> and <b>(2) a prior over skills</b> from an offline dataset of unstructured agent experience. We define skills as action trajectories of fixed length from the training sequences and train a generative model over randomly cropped action trajectories by maximizing the Evidence Lower Bound (ELBO). Additionally, we train a skill prior network to approximate the skill posterior distribution over the learned skill embedding space given the current state.
-          </span>
-        </td>
-        </tr>
-        </tbody></table><br>
+        <img src="https://meta-world.github.io/img/metalearning.png" class="img-fluid" alt="">
+        <p>In multi-task learning and meta-learning, the goal is not just to 
+          learn one skill, but to learn a number of skills. 
+        </p>
+        <p>
+          In multi-task RL, 
+          we assume that we want to learn a fixed set of skills with minimal 
+          data, while in meta-RL, we want to use experience from a set of 
+          skills such that we can learn to solve new skills quickly.
+        </p>
 
-      <table align="center" width="950px">
-        <tbody><tr>
-        <td style="width:50%">
-          <h2>Skill Prior Guided Reinforcement Learning</h2>
-          <span style="float:right;margin:auto;" align="justify">
-          Once the skill embedding space and skill prior are learned, we can leverage them for efficient learning of new downstream tasks. We propose a hierarchical policy architecture in which a high-level policy outputs skill embeddings which get translated into executable actions using the pre-trained decoder model. To guide exploration during downstream learning we regularize the policy's output distribution towards the learned skill prior.
-          </span>
-        </td>
-        <td style="width:3%"></td>
-        <td style="width:47%">
-          <!-- <p style="margin-top:4px;"></p> -->
-          <a href="./demystifying_reproducibility_in_meta_mtrl_files/skill_prior_rl.png"><img style="width:500px; float:left" src="./demystifying_reproducibility_in_meta_mtrl_files/skill_prior_rl.png"></a>
-        </td>
-        </tr>
-      </tbody></table>
+        <h3><strong>Can small differences in implementations of common multi-task and meta-RL algorithms make significant changes in algorithm performance?</strong></h3>
+        
     <br><hr>
 
 
     <!-- ################### ENVIRONMENTS #################### -->
 
     <center><h1>Environments</h1></center><table align="center" width="1000px">
-        
-        <tbody><tr>
-        <td style="width:1%">
-          <center><div style="font-size:25px; transform:rotate(270deg)">
-          Training Tasks
-          </div></center>
-        </td>
+      <div class="container" style="width:800px; margin:0 auto;padding:5px" align="justify">
+        <h2>Metaworld</h2>
+        <p>The ablations that have been completed are done on the
+          Metaworld benchmark, a benchmark for Meta and Multi-task RL algorithms.
+          Here are visualizations of the different benchmarks available in Metaworld
+          that were used in gathering the results for this project.
+        </p>
 
-        <!-- ################### Maze #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Maze</h2></center>
-          <table align="center" width="100%">
-            <tbody><tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/maze_demo_0.mp4"><video src="resources/env_videos/maze_demo_0.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/maze_demo_1.mp4"><video src="resources/env_videos/maze_demo_1.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/maze_demo_2.mp4"><video src="resources/env_videos/maze_demo_2.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/maze_demo_3.mp4"><video src="resources/env_videos/maze_demo_3.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-          </tbody></table><br>
-        </td>
-
-        <!-- ################### Block Stacking #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Block Stacking</h2></center>
-          <table align="center" width="100%">
-            <tbody><tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/blocks_demo_0.mp4"><video src="resources/env_videos/blocks_demo_0.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/blocks_demo_1.mp4"><video src="resources/env_videos/blocks_demo_1.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/blocks_demo_2.mp4"><video src="resources/env_videos/blocks_demo_2.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/blocks_demo_3.mp4"><video src="resources/env_videos/blocks_demo_3.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-          </tbody></table><br>
-        </td>
-
-        <!-- ################### Kitchen #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Kitchen</h2></center>
-          <table align="center" width="100%">
-            <tbody><tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/kitchen_demo_0.mp4"><video src="resources/env_videos/kitchen_demo_0.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/kitchen_demo_1.mp4"><video src="resources/env_videos/kitchen_demo_1.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/kitchen_demo_2.mp4"><video src="resources/env_videos/kitchen_demo_2.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="https://clvrai.github.io/spirl/resources/env_videos/kitchen_demo_3.mp4"><video src="resources/env_videos/kitchen_demo_3.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-              </td>
-            </tr>
-          </tbody></table><br>
-        </td>
-        </tr>
-
-        <tr>
-          <td style="width:1%">
-            <center><div style="font-size:25px; transform:rotate(270deg)">
-            Target Tasks
-            </div></center>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="https://clvrai.github.io/spirl/resources/env_videos/maze_test.mp4"><video src="resources/env_videos/maze_test.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="https://clvrai.github.io/spirl/resources/env_videos/blocks_test.mp4"><video src="resources/env_videos/blocks_test.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="https://clvrai.github.io/spirl/resources/env_videos/kitchen_test.mp4"><video src="resources/env_videos/kitchen_test.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-
-        </tr>
-
-        </tbody></table><br>
-
-      <div style="width:800px; margin:0 auto; text-align=right" align="justify">
-        We evaluate our approach on one navigation and two robot manipulation environments. In each environment, we have a diverse set of training tasks for collecting large datasets of agent experience (see top row), which we use to train skill embedding and skill prior. We then leverage them to guide learning on new downstream tasks (bottom row), which require generalization to a larger maze, an environment with more blocks and novel combinations of the learned kitchen manipulation skills.
+        <div class="container">
+          <h3>Meta-Learning 10 (ML10)</h3>
+    
+          <p>ML10 is a harder meta-learning task, where we train on 10 manipulation tasks, and are given 5 new ones at test time.</p>
+          <img src="https://meta-world.github.io/figures/ml10.gif" class="img-fluid" alt="">
+    
+          <h3>Multi-Task 10 (MT10)</h3>
+          <p>MT10 tests multi-task learning- that is, simply learning a policy that can succeed on a diverse set of tasks, without testing generalization. </p>
+          <img src="https://meta-world.github.io/figures/mt10.gif" class="img-fluid" alt="">
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <!-- <h2 class="section-heading">Discover what all the buzz is about!</h2> -->
+            </div>
+          </div>
+        </div>
+  
       </div>
-      <hr>
-
-
-      <!-- ################### EXPLORATION #################### -->
-
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Improved Exploration with Learned Skill Priors</h1></center>
-      </div>
-      <br>
-          <center><a href="./demystifying_reproducibility_in_meta_mtrl_files/spirl_exploration.png"><img src="./demystifying_reproducibility_in_meta_mtrl_files/spirl_exploration.png" width="1300px"></a><br></center>
-          <div style="width:800px; margin:0 auto;" align="justify">
-        Exploration behavior of our method vs. alternative transfer approaches on the downstream maze task. Through learned skill embeddings and skill priors our method can explore the environment more widely than randomly sampling learned skills ("Skills w/o Prior") or learning priors over primitive actions ("Flat Prior"). Uniformly random exploration in primitive action space ("Random") is not able to coherently explore the maze. We visualize positions of the agent during 1M steps of exploration rollouts in blue and mark episode start and goal positions in green and red respectively.
-      </div>
-      <br><hr>
-
-
-      <!-- ################### POLICY ROLLOUTS #################### -->
-
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Long-Horizon Manipulation with Skill Priors</h1></center>
-      </div>
-      <table align="center" width="1000px">
-        <tbody><tr>
-          <td style="width:24%">
-            <center><h2>SAC</h2></center>
-            <a href="https://clvrai.github.io/spirl/resources/policy_videos/sac.mp4"><video src="resources/policy_videos/sac.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>Flat Prior</h2></center>
-            <a href="https://clvrai.github.io/spirl/resources/policy_videos/flat_prior.mp4"><video src="resources/policy_videos/flat_prior.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>SSP (no prior)</h2></center>
-            <a href="https://clvrai.github.io/spirl/resources/policy_videos/no_prior.mp4"><video src="resources/policy_videos/no_prior.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>SPiRL (ours)</h2></center>
-            <a href="https://clvrai.github.io/spirl/resources/policy_videos/ours.mp4"><video src="resources/policy_videos/ours.mp4" width="100%" autoplay="" muted="" loop=""></video></a>
-          </td>
-        </tr>
-      </tbody></table>
-      <br><div style="width:800px; margin:0 auto;" align="justify">
-        Rollouts from the trained policies on the challenging kitchen manipulation task. The agent needs to perform four subtasks: open microwave, move kettle, turn on stove, switch on light. Since the agent only receives reward upon completion of a subtask, conventional model-free RL (SAC) struggles to learn the task. A learned prior over primitive actions ("Flat Prior") or learned skill embeddings ("Skill Space Policy w/o Prior") can improve exploration, but only our approach learns to solve all four subtasks.
-      </div><br><hr>
-
-
-      <!-- ################### QUANTITATIVE RESULTS #################### -->
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Quantitative Results</h1></center>
-      </div>
-      <br>
-          <center><img src="./demystifying_reproducibility_in_meta_mtrl_files/spirl_quantitative_results.png" width="1000px"><br></center>
-      <hr>
 
 
       </tbody></table>
     <br><hr>
 
+    <center><h1>Experiments</h1></center><table align="center" width="1000px"></table>
+       <div class="container" style="width:800px; margin:0 auto;padding:5px" align="justify">
+        <h2>Reward Normalization</h2>
+        <p>
+          All of the environments that we try to train across have different 
+          scales of reward: Some range from 0-1,000, some from 0-10, some 
+          from 0-10,000. Increasing reward corresponds to improvement, <strong>the 
+          same reward in 2 environments doesn’t imply the same amount of 
+          improvement towards a task. The same optimizer is used to learn a 
+          policy across these different reward functions.</strong> An optimizer would 
+          fit a policy to whatever behaviors output the highest reward.
+          What if we normalized our rewards so that they fall on <strong>similar 
+          reward scales?</strong>
+        </p>
+        <img src="./demystifying_reproducibility_in_meta_mtrl_files/RL2_reward_normalization_ml10.png" class="img-fluid" alt="">
+        <p>
+          In the graph above, RL^2 with reward normalization is ablated against RL^2 without reward normalization. The curves
+          show that adding reward normalization <strong> the performance of RL^2 by ~15% (p=0.04)</strong> on the benchmark ML10.
+        </p>
+       </div>
+       <div class="container" style="width:800px; margin:0 auto;padding:5px" align="justify">
+        <h2>Time Limit Terminations</h2>
+        <p>
+          Software implementers of RL algorithms frequently use a concept called 
+          <a href="https://github.com/openai/gym/issues/1230">Time Limits</a>, 
+          to express the idea that a task has a finite time-horizon. 
+          In many open source trusted algorithm implementations 
+          it is expressed by injecting a terminal state at the end of an episode.
+          This has some nice properties when one implements RL algorithms in code,
+          such as reducing the amount of code needed to express a sampler.
+          <br>
+          <br>
+          The problem with this decision is that RL agents don’t have a concept of time. 
+          Because the timestep number is normally not included as apart of the observation space,
+          RL agents are unable to determine whether a terminal state is caused by an environment 
+          terminating due to the task being solved or whether too many timesteps 
+          collected in an environment without resetting it to its initial 
+          configuration [time limit termination].
+        </p>
+        <img src="./demystifying_reproducibility_in_meta_mtrl_files/MTSAC_MT10_Time_Limits.png" class="img-fluid" alt="">
+        <p>
+          By removing time limits from the Metaworld MT10 benchmark, the <strong>performance of MTSAC increases 
+          from ~30% to ~65%(p=0.05).</strong> This likely because as mentioned before, <strong>the addition of time limit 
+          terminations turns MDPs into POMDPs.</strong> RL algorithms heavily strugle with optimizing POMDPs, especially off
+          policy algorithms such as MTSAC.
+        </p>
+       </div>
+       <div class="container" style="width:800px; margin:0 auto;padding:5px" align="justify">
+        <h2>Max Entropy Rewards</h2>
+        <img src="./demystifying_reproducibility_in_meta_mtrl_files/max_ent_reward.gif" class="img-fluid" alt="">
+        <p>
+          Adding the entropy of the policy to the reward outputted by the environment, is a trick that is used to 
+          keep the width of the distributions outputted by policies wide. This result of this trick is best visualized
+          by the below image.
+        </p>
+        <img src="./demystifying_reproducibility_in_meta_mtrl_files/max_entropy_explanation.png" class="img-fluid" alt="">
+        <p>
+          Making the distributions wider is a good action because it makes the exploration of the agent better in the
+          long-term, which leads to faster convergence on an optimal policy. The problem is that differing amounts of 
+          entropy are needed to solve the different tasks. High entropy is needed to solve difficult environments, 
+          but makes it difficult to solve easy environments, and vice versa. This experiment ablates a max-entropy RL^2
+          PPO against a vanilla RL^2 PPO and a max-entropy MTPPO against a vanilla MTPPO on the benchmarks ML10 and MT10
+          respectively.
+        </p>
+        <img src="./demystifying_reproducibility_in_meta_mtrl_files/Entropy_maximization_ml10_mt10.png" class="img-fluid" alt="">
+        <p>
+          <strong>Max entropy hurts the performance of RL^2 PPO (P = 0.006) and MTPPO (P=0.04)</strong> <br>
+          A max-entropy solution that caters to MTRL and meta-RL would be one that has an entropy per learned
+          task.
+        </p>
+      </div>
+      </div>
 
-      <!-- <div style="width:800px; margin:0 auto; text-align=center">
-        <br>
-        <center>Code and full paper to be released soon.</center>
-      </div> -->
+      <br><hr>
+      <center><h1>Conclusion</h1></center><table align="center" width="1000px"></table>
+      <div class="container" style="width:800px; margin:0 auto;padding:5px" align="justify">
+      Small changes in the implementations of RL algorithms can make 
+      significant differences in their performances. For any ML/DL/RL related 
+      research projects, one should invest some time into reproducing correct, 
+      high performing baselines. <br>
+      Further work in meta-RL and MTRL should be more robust to not be dependent
+      on these various tricks that were used to improve the performance of the 
+      previously mentioned algorithms.
+    </div>
+
       
 
 <script xml:space="preserve" language="JavaScript">
